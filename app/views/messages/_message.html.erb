@@ -1,0 +1,8 @@
+<div class="message_item">
+<h3><%= message.subject %></h3>
+
+<p>From <%= message.sender.name %> <%= time_ago_in_words(message.created_at) %> ago</p>
+
+<p><%= message.body %></p>
+
+</div>

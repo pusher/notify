@@ -1,0 +1,84 @@
+/* @override http://localhost:3000/stylesheets/master.css?1313765561 */
+
+* {
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+a  {
+	text-decoration: none;
+}
+.holder {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	width: 800px;
+}
+.nav {
+	background: #bbb;
+	height: 25px;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.nav a {
+	color: white;
+	display: block;
+	float: right;
+	font-weight: bold;
+	font-size: 0.9em;
+	padding: 4px;
+	padding-right: 20px;
+}
+h1 {
+  font-size: 2.3em;
+  font-weight: normal;
+}
+h1 a {
+	color: #444;
+}
+h2 {
+	margin: 0.5em 0;
+}
+#new_message label {
+	display: block;
+	padding: 0.5em 0;
+}
+#new_message label {
+	display: block;
+}
+#new_message textarea {
+	height: 100px;
+	width: 500px;
+}
+.message_item {
+	padding: 1em;
+	background: #CFF8FF;
+}
+.message_item h3 {
+	margin-bottom: 0.5em;
+}
+
+#status {
+  color: #888;
+  background: #eee;
+  text-align: center;
+  font-size: 0.9em;
+  padding: 5px;
+}
+
+#notify {
+  display: none;
+  color: #fff;
+  background: #333;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 10px;
+  opacity: 0.8;
+  width: 300px;
+  
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}

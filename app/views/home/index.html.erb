@@ -1,0 +1,8 @@
+<% if signed_in? %>
+<h2>All the users of BookFace</h2>
+
+<%= render :partial => User.all %>
+
+<% else %>
+ <h2>Only logged in users can use BookFace</h2>
+<% end %>

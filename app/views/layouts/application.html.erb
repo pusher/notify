@@ -3,12 +3,107 @@
 <head>
   <title>Notifiy</title>
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script src="http://js.pusherapp.com/1.9/pusher.min.js"></script>
+  <script src="/javascripts/jquery.titlealert.js"></script>
+  
+	<% if signed_in? # no notifications if you're not signed in %>
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+      var pusher = new Pusher('fa7c1e955481731b1662'); // Replace with your app key
+      var channel = pusher.subscribe('private-'+<%= current_user ? current_user.id : 'null' %>);
+      
+      channel.bind('new_message', function(data) {
+        msg = data.from + ' has sent you a message: ' + data.subject;
+        dom_notify(msg);
+        title_notify(msg);
+        if (window.webkitNotifications) { webkit_notify(msg); }
+      });
+      
+      // In DOM alert
+      function dom_notify(msg) {
+        $('#notify').text(msg);
+        $('#notify').fadeIn();
+        setTimeout(function() {
+          $('#notify').fadeOut
+          ();
+        }, 2000);
+      }
+      
+      // <title> msg
+      function title_notify(msg) {
+        $.titleAlert(msg);
+      }
+      
+      // Webkit Notifications API
+      // http://www.html5rocks.com/en/tutorials/notifications/quick/
+      
+      // Setup permissions
+      if (window.webkitNotifications) {
+        console.log("Notifications are supported!");
+        $('#notify_api').show();
+      }
+      else {
+        console.log("Notifications are not supported for this Browser/OS version yet.");
+      }
+      
+      $('#ask_notify_permission').click(function() {
+        window.webkitNotifications.requestPermission();
+      });
+      
+      // Notify function
+      function webkit_notify(msg) {
+        notify = window.webkitNotifications.createNotification('http://pusher.com/stylesheets/images/feature_scalable.png', msg, '');
+        notify.show();
+      }
+      
+      // Some useful Pusher debug msgs
+      pusher.connection.bind('connecting', function() {
+        $('div#status').text('Connecting to Pusher...');
+      });
+      pusher.connection.bind('connected', function() {
+        $('div#status').text('Connected to Pusher!');
+      });
+      pusher.connection.bind('failed', function() {
+        $('div#status').text('Connection to Pusher failed :(');
+      });
+      channel.bind('subscription_error', function(status) {
+        $('div#status').text('Pusher subscription_error');
+      });
+    });
+  </script>
+	<% end %>
 </head>
 <body>
+	<% if signed_in? %>
+  <div id="notify">A little notification here</div>
+  
+  <div id="status"></div>
+  
+  <div id="notify_api"><button type="button" id="ask_notify_permission">Enable Webkit Notifications</button></div>
+	<% end %>
 
-<%= yield %>
+	
+	
+	<div class="holder">
+	  <h1><%= link_to 'BookFace', '/' %></h1>
 
+  	<div class="nav">	
+  		<% if user_signed_in? %>
+  			<%= link_to 'your messages', messages_path %>
+  			<%= link_to 'logout', destroy_user_session_path %>
+  		<% else %>
+  			<%= link_to 'login', new_user_session_path %>
+  			<%= link_to 'register', new_user_registration_path %>
+  		<% end %>
+  	</div>
+  	
+		<p class="notice"><%= notice %></p>
+		<p class="alert"><%= alert %></p>
+		<%= yield %>
+	</div>
+	
 </body>
 </html>

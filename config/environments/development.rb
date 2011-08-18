@@ -14,6 +14,7 @@ Notifiy::Application.configure do
   config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
 
@@ -22,5 +23,11 @@ Notifiy::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+  
+  require 'pusher'
+  Pusher.logger = Rails.logger
+  Pusher.app_id = 7733
+  Pusher.key = 'fa7c1e955481731b1662'
+  Pusher.secret = '9cdec7c15f2f8a9034c4'
 end
 
